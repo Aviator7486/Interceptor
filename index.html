@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Fighter Jet • MULTI-TARGET INTERCEPTOR V2.2.3</title>
+    <title>Fighter Jet • MULTI-TARGET INTERCEPTOR V2.2.4</title>
     <style>
         html, body {
             margin: 0;
@@ -130,12 +130,15 @@
         }
 
         canvas {
+            background: #050811;
             display: block;
+            border-radius: 2px;
             image-rendering: crisp-edges;
             width: 100%;
             height: 100%;
+            max-width: 95vw;
+            max-height: 70dvh; /* Optimized vertical roof allocation prevents bottom button crowding */
             object-fit: contain;
-            border-radius: 2px;
         }
 
         #ui-overlay {
@@ -206,69 +209,85 @@
 
 /* --- GLOBAL PORTRAIT DEFENSE GRID --- */
         @media screen and (orientation: portrait) {
+            /* Fix the text clipping: drop letter spacing and let it scale fluidly */
             h1 {
-                font-size: clamp(11px, 4vw, 15px) !important;
-                letter-spacing: 0.5px !important; /* Hard-tightens letter spacing to kill the portrait text wrap */
-                text-align: center;
-                white-space: nowrap;
-                margin: 2px 0 !important;
+                font-size: clamp(14px, 4.2vw, 20px) !important;
+                letter-spacing: 0.5px !important; 
+                text-align: center !important;
+                width: 100% !important;
+                padding: 0 12px !important;
+                box-sizing: border-box !important;
+                margin: 4px 0 !important;
             }
             
             .subtitle {
-                font-size: clamp(7px, 1.8vw, 9px) !important;
-                letter-spacing: 0.2px !important;
-                text-align: center;
-                margin-bottom: 4px !important;
+                font-size: clamp(9px, 2.2vw, 11px) !important;
+                letter-spacing: 0.5px !important;
+                text-align: center !important;
+                padding: 0 12px !important;
+                box-sizing: border-box !important;
+                margin-bottom: 8px !important;
             }
 
-            /* Stack the canvas view and the button decks vertically */
+            /* CSS Grid re-mapping forces controls down regardless of HTML markup order */
             #game-wrapper {
-                flex-direction: column !important;
-                gap: 12px !important;
-                max-height: none !important;
-                width: 100vw;
-                align-items: center;
-            }
-
-            /* --- THE THREE-BUTTON DECK CONVERGER --- */
-            /* Forces both side control pylons to flatten into smooth horizontal rows */
-            #left-controls, #right-controls {
-                flex-direction: row !important;
-                justify-content: center !important;
-                align-items: center !important;
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                grid-template-rows: auto auto !important;
+                grid-template-areas: 
+                    "canvas canvas"
+                    "left right" !important;
                 gap: 16px !important;
                 width: 100% !important;
-                height: auto !important;
+                max-height: none !important;
+                justify-items: center !important;
+                align-items: center !important;
             }
 
-            /* Shrink button profiles slightly so all three fit side-by-side without overlapping */
+            /* Assign layout segments to the grid map */
+            #game-container {
+                grid-area: canvas !important;
+            }
+
+            /* Moves LOCK to the bottom-left corner */
+            #left-controls {
+                grid-area: left !important;
+                flex-direction: row !important;
+                justify-content: center !important;
+                width: 100% !important;
+            }
+
+            /* Moves FIRE and Joystick to the bottom-right corner */
+            #right-controls {
+                grid-area: right !important;
+                flex-direction: row !important;
+                justify-content: center !important;
+                gap: 12px !important;
+                width: 100% !important;
+            }
+
+            /* Balance touch dimensions so they fit comfortably side-by-side */
             .touch-button {
-                width: 60px !important;
-                height: 60px !important;
-                font-size: 11px !important;
+                width: 68px !important;
+                height: 68px !important;
+                font-size: 13px !important;
             }
 
             #joystick-container {
-                width: 70px !important;
-                height: 70px !important;
-                margin-left: 8px;
+                width: 78px !important;
+                height: 78px !important;
             }
 
-            /* Strip background instructional text entirely in portrait to give buttons maximum room */
-            .instructions, #controls-tip { display: none !important; }
-        }            }
-
-            #left-controls, #right-controls {
-                flex-direction: row;
-                justify-content: space-around;
-                width: 100%;
+            /* Clean out desktop tutorial text strings to save screen real estate */
+            .instructions, #controls-tip { 
+                display: none !important; 
             }
         }
 
     </style>
 </head>
 <body>
-    <h1>Fighter Jet • MULTI-TARGET INTERCEPTOR <span style="color:#888; font-size:13px;">V2.2.3</span></h1>
+    <h1>Fighter Jet • MULTI-TARGET INTERCEPTOR <span style="color:#888; font-size:13px;">V2.2.4</span></h1>
     <div class="subtitle">MULTI-TARGET INTERCEPTOR • TACTICAL SIMULATION • 1974 ERA</div>
 
     <div id="game-wrapper">
