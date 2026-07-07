@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Fighter Jet • MULTI-TARGET INTERCEPTOR V2.2</title>
+    <title>Fighter Jet • MULTI-TARGET INTERCEPTOR V2.2.2</title>
     <style>
         html, body {
             margin: 0;
@@ -118,9 +118,10 @@
             box-shadow: 0 0 40px rgba(0, 255, 157, 0.12);
             border: 2px solid #1a2638;
             border-radius: 4px;
+            aspect-ratio: 800 / 520; /* Sets up the master proportional cage */
+            max-height: 82dvh;       /* Forces the layout container to follow the vertical ceiling */
+            width: auto;             /* Lets the width automatically calculate from the height */
             max-width: 100%;
-            flex-shrink: 1;
-            aspect-ratio: 800 / 520; /* Sets up a structural boundary cage to lock internal scaling proportions */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -132,9 +133,7 @@
             image-rendering: crisp-edges;
             width: 100%;
             height: 100%;
-            max-width: 95vw;
-            max-height: 78dvh;
-            object-fit: contain; /* Vectorizes scaling so cockpit display configurations never squish */
+            object-fit: contain;
             border-radius: 2px;
         }
 
@@ -194,23 +193,48 @@
             max-width: 95vw;
         }
 
-       @media screen and (max-height: 480px) and (orientation: landscape) {
-            #game-wrapper { max-height: 92dvh; gap: 5px; }
-            #left-controls, #right-controls { gap: 6px; }
+       @media screen and (max-height: 520px) and (orientation: landscape) {
+            #game-wrapper { max-height: 95dvh; gap: 10px; }
             
-            /* Tighten virtual control footprints so they stay safely within phone margins */
-            .touch-button { width: 52px; height: 52px; font-size: 11px; }
-            #joystick-container { width: 62px; height: 62px; }
+            .touch-button { width: 58px; height: 52px; font-size: 12px; }
+            #joystick-container { width: 65px; height: 65px; }
             
-            canvas { max-height: 82dvh; }
-            
-            /* Hides background textual elements on tight screens to protect absolute button clearance */
+            /* Dynamically hides headers/footers to reclaim vertical space on small viewports */
             h1, .subtitle, .instructions, #controls-tip { display: none !important; }
         }
+
+/* --- GLOBAL PORTRAIT DEFENSE GRID --- */
+        @media screen and (orientation: portrait) {
+            h1 {
+                font-size: clamp(13px, 4.5vw, 18px) !important;
+                letter-spacing: 1px !important; /* Tightens text tracking so it never wraps text */
+                text-align: center;
+                white-space: nowrap;
+            }
+            
+            .subtitle {
+                font-size: clamp(8px, 2vw, 10px) !important;
+                letter-spacing: 0.5px !important;
+                text-align: center;
+            }
+
+            #game-wrapper {
+                flex-direction: column; /* Gracefully stack layout components if held vertically */
+                gap: 20px;
+                max-height: none;
+            }
+
+            #left-controls, #right-controls {
+                flex-direction: row;
+                justify-content: space-around;
+                width: 100%;
+            }
+        }
+
     </style>
 </head>
 <body>
-    <h1>Fighter Jet • MULTI-TARGET INTERCEPTOR <span style="color:#888; font-size:13px;">V2.2</span></h1>
+    <h1>Fighter Jet • MULTI-TARGET INTERCEPTOR <span style="color:#888; font-size:13px;">V2.2.2</span></h1>
     <div class="subtitle">MULTI-TARGET INTERCEPTOR • TACTICAL SIMULATION • 1974 ERA</div>
 
     <div id="game-wrapper">
