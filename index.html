@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Fighter Jet • MULTI-TARGET INTERCEPTOR V2.2.6</title>
+    <title>Fighter Jet • MULTI-TARGET INTERCEPTOR V2.2.7</title>
     <style>
         html, body {
             margin: 0;
@@ -29,23 +29,24 @@
             box-sizing: border-box;
         }
 
-        h1 {
-            margin: 4px 0 2px;
-            font-size: clamp(14px, 4vw, 21px);
-            letter-spacing: 2px;
-            color: #00ff9d;
-            font-weight: 400;
-            text-shadow: 0 0 12px rgba(0, 255, 157, 0.3);
-            text-align: center;
-        }
-
-        .subtitle {
-            font-size: clamp(9px, 2.5vw, 11px);
-            color: #5a6b7c;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            text-align: center;
-        }
+        /* Safely scales down the font limits so the full text layout fits your screen width */
+            h1 {
+                font-size: clamp(11px, 3.1vw, 14px) !important; /* Dropped slightly to guarantee total safety margin */
+                letter-spacing: normal !important; 
+                text-align: center !important;
+                white-space: nowrap !important;
+                width: 100% !important;
+                padding: 0 8px !important;
+                box-sizing: border-box !important;
+                margin: 6px 0 2px !important;
+            }
+            
+            .subtitle {
+                font-size: clamp(8px, 1.8vw, 9.5px) !important;
+                letter-spacing: normal !important;
+                text-align: center !important;
+                margin-bottom: 12px !important;
+            }
 
         #game-wrapper {
             display: flex;
@@ -248,7 +249,7 @@
     </style>
 </head>
 <body>
-    <h1>Fighter Jet • MULTI-TARGET INTERCEPTOR <span style="color:#888; font-size:13px;">V2.2.6</span></h1>
+    <h1>Fighter Jet • MULTI-TARGET INTERCEPTOR <span style="color:#888; font-size:13px;">V2.2.7</span></h1>
     <div class="subtitle">MULTI-TARGET INTERCEPTOR • TACTICAL SIMULATION • 1974 ERA</div>
 
     <div id="game-wrapper">
