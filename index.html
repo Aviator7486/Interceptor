@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Fighter Jet • MULTI-TARGET INTERCEPTOR V2.2.4</title>
+    <title>Fighter Jet • MULTI-TARGET INTERCEPTOR V2.2.5</title>
     <style>
         html, body {
             margin: 0;
@@ -137,7 +137,7 @@
             width: 100%;
             height: 100%;
             max-width: 95vw;
-            max-height: 70dvh; /* Optimized vertical roof allocation prevents bottom button crowding */
+            max-height: 74dvh; /* Limits max canvas height to guarantee room for controls below */
             object-fit: contain;
         }
 
@@ -198,96 +198,104 @@
         }
 
        @media screen and (max-height: 520px) and (orientation: landscape) {
-            #game-wrapper { max-height: 95dvh; gap: 10px; }
+            /* Force the wrapper layout to fill up the height limits of wide screens */
+            #game-wrapper { max-height: 94dvh !important; gap: clamp(14px, 3.5vw, 45px) !important; }
             
-            .touch-button { width: 58px; height: 52px; font-size: 12px; }
-            #joystick-container { width: 65px; height: 65px; }
+            /* Expand vertical container parameters */
+            #game-container { max-height: 88dvh !important; }
+            canvas { max-height: 88dvh !important; }
             
-            /* Dynamically hides headers/footers to reclaim vertical space on small viewports */
+            .touch-button { width: clamp(60px, 12vw, 105px) !important; height: clamp(60px, 12vw, 105px) !important; font-size: 14px !important; }
+            #joystick-container { width: clamp(75px, 15vw, 135px) !important; height: clamp(75px, 15vw, 135px) !important; }
+            
             h1, .subtitle, .instructions, #controls-tip { display: none !important; }
         }
 
 /* --- GLOBAL PORTRAIT DEFENSE GRID --- */
         @media screen and (orientation: portrait) {
-            /* Fix the text clipping: drop letter spacing and let it scale fluidly */
+            /* Kill character compression errors by stripping letter spacing entirely */
             h1 {
-                font-size: clamp(14px, 4.2vw, 20px) !important;
-                letter-spacing: 0.5px !important; 
+                font-size: clamp(14px, 4.2vw, 19px) !important;
+                letter-spacing: normal !important; 
                 text-align: center !important;
-                width: 100% !important;
-                padding: 0 12px !important;
-                box-sizing: border-box !important;
-                margin: 4px 0 !important;
+                white-space: nowrap !important;
+                margin: 6px 0 2px !important;
             }
             
             .subtitle {
-                font-size: clamp(9px, 2.2vw, 11px) !important;
-                letter-spacing: 0.5px !important;
+                font-size: clamp(9px, 2.2vw, 10px) !important;
+                letter-spacing: normal !important;
                 text-align: center !important;
-                padding: 0 12px !important;
-                box-sizing: border-box !important;
-                margin-bottom: 8px !important;
+                margin-bottom: 12px !important;
             }
 
-            /* CSS Grid re-mapping forces controls down regardless of HTML markup order */
+            /* Dissolve side folders so children line up directly on the master layout matrix */
+            #left-controls, #right-controls {
+                display: contents !important;
+            }
+
+            /* Convert wrapper into a 3-column layout row below the canvas matrix */
             #game-wrapper {
                 display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
+                grid-template-columns: 1fr 1fr 1fr !important;
                 grid-template-rows: auto auto !important;
                 grid-template-areas: 
-                    "canvas canvas"
-                    "left right" !important;
-                gap: 16px !important;
+                    "canvas canvas canvas"
+                    "lock pylon-fire joystick" !important;
+                gap: 14px !important;
                 width: 100% !important;
-                max-height: none !important;
-                justify-items: center !important;
-                align-items: center !important;
+                max-width: 92vw !important; /* Protects blue borders from clipping on the glass */
+                margin: 0 auto !important;
             }
 
-            /* Assign layout segments to the grid map */
+            /* Pin the visual flight screen to the top row */
             #game-container {
                 grid-area: canvas !important;
-            }
-
-            /* Moves LOCK to the bottom-left corner */
-            #left-controls {
-                grid-area: left !important;
-                flex-direction: row !important;
-                justify-content: center !important;
                 width: 100% !important;
+                max-width: 92vw !important;
             }
 
-            /* Moves FIRE and Joystick to the bottom-right corner */
-            #right-controls {
-                grid-area: right !important;
-                flex-direction: row !important;
-                justify-content: center !important;
-                gap: 12px !important;
-                width: 100% !important;
+            /* Center the LOCK button inside the left third of the device */
+            #lock-button {
+                grid-area: lock !important;
+                justify-self: center !important;
+                align-self: center !important;
             }
 
-            /* Balance touch dimensions so they fit comfortably side-by-side */
+            /* Center the FIRE/REPLAY button exactly in the middle of the glass */
+            #fire-button {
+                grid-area: pylon-fire !important;
+                justify-self: center !important;
+                align-self: center !important;
+            }
+
+            /* Center the Virtual Joystick inside the right third of the device */
+            #joystick-container {
+                grid-area: joystick !important;
+                justify-self: center !important;
+                align-self: center !important;
+            }
+
+            /* Adjust mobile button target dimensions for portrait spacing comfort */
             .touch-button {
-                width: 68px !important;
-                height: 68px !important;
-                font-size: 13px !important;
+                width: clamp(60px, 15vw, 75px) !important;
+                height: clamp(60px, 15vw, 75px) !important;
+                font-size: 12px !important;
             }
 
             #joystick-container {
-                width: 78px !important;
-                height: 78px !important;
+                width: clamp(70px, 17vw, 85px) !important;
+                height: clamp(70px, 17vw, 85px) !important;
             }
 
-            /* Clean out desktop tutorial text strings to save screen real estate */
-            .instructions, #controls-tip { 
-                display: none !important; 
-            }
+            /* Strip background instructional lines to maximize vertical clearance */
+            .instructions, #controls-tip { display: none !important; }
         }
 
     </style>
 </head>
 <body>
-    <h1>Fighter Jet • MULTI-TARGET INTERCEPTOR <span style="color:#888; font-size:13px;">V2.2.4</span></h1>
+    <h1>Fighter Jet • MULTI-TARGET INTERCEPTOR <span style="color:#888; font-size:13px;">V2.2.5</span></h1>
     <div class="subtitle">MULTI-TARGET INTERCEPTOR • TACTICAL SIMULATION • 1974 ERA</div>
 
     <div id="game-wrapper">
