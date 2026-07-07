@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Fighter Jet • MULTI-TARGET INTERCEPTOR V2.2.2</title>
+    <title>Fighter Jet • MULTI-TARGET INTERCEPTOR V2.2.3</title>
     <style>
         html, body {
             margin: 0;
@@ -49,12 +49,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: clamp(14px, 4vw, 45px); /* Widens control gaps to push pylons out to the screen edges */
+            gap: clamp(12px, 3vw, 40px);
             width: 100%;
             max-width: 100vw;
-            max-height: 84dvh;
-            padding: 0 16px;
+            max-height: 85vh;
+            padding: 0 12px;
             box-sizing: border-box;
+            flex-wrap: wrap; /* --- WRAP PASS: Allows control decks to wrap cleanly under the canvas --- */
         }
 
         #left-controls, #right-controls {
@@ -206,23 +207,56 @@
 /* --- GLOBAL PORTRAIT DEFENSE GRID --- */
         @media screen and (orientation: portrait) {
             h1 {
-                font-size: clamp(13px, 4.5vw, 18px) !important;
-                letter-spacing: 1px !important; /* Tightens text tracking so it never wraps text */
+                font-size: clamp(11px, 4vw, 15px) !important;
+                letter-spacing: 0.5px !important; /* Hard-tightens letter spacing to kill the portrait text wrap */
                 text-align: center;
                 white-space: nowrap;
+                margin: 2px 0 !important;
             }
             
             .subtitle {
-                font-size: clamp(8px, 2vw, 10px) !important;
-                letter-spacing: 0.5px !important;
+                font-size: clamp(7px, 1.8vw, 9px) !important;
+                letter-spacing: 0.2px !important;
                 text-align: center;
+                margin-bottom: 4px !important;
             }
 
+            /* Stack the canvas view and the button decks vertically */
             #game-wrapper {
-                flex-direction: column; /* Gracefully stack layout components if held vertically */
-                gap: 20px;
-                max-height: none;
+                flex-direction: column !important;
+                gap: 12px !important;
+                max-height: none !important;
+                width: 100vw;
+                align-items: center;
             }
+
+            /* --- THE THREE-BUTTON DECK CONVERGER --- */
+            /* Forces both side control pylons to flatten into smooth horizontal rows */
+            #left-controls, #right-controls {
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 16px !important;
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            /* Shrink button profiles slightly so all three fit side-by-side without overlapping */
+            .touch-button {
+                width: 60px !important;
+                height: 60px !important;
+                font-size: 11px !important;
+            }
+
+            #joystick-container {
+                width: 70px !important;
+                height: 70px !important;
+                margin-left: 8px;
+            }
+
+            /* Strip background instructional text entirely in portrait to give buttons maximum room */
+            .instructions, #controls-tip { display: none !important; }
+        }            }
 
             #left-controls, #right-controls {
                 flex-direction: row;
@@ -234,7 +268,7 @@
     </style>
 </head>
 <body>
-    <h1>Fighter Jet • MULTI-TARGET INTERCEPTOR <span style="color:#888; font-size:13px;">V2.2.2</span></h1>
+    <h1>Fighter Jet • MULTI-TARGET INTERCEPTOR <span style="color:#888; font-size:13px;">V2.2.3</span></h1>
     <div class="subtitle">MULTI-TARGET INTERCEPTOR • TACTICAL SIMULATION • 1974 ERA</div>
 
     <div id="game-wrapper">
